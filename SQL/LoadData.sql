@@ -1,8 +1,9 @@
 INSERT INTO tinderroulette.memberstatus(
             id_member_status, status)
-    VALUES (1,'Élève'),
-	(2,'Enseignant'),
-	(3,'Administrateur');
+    VALUES (1,'Etudiants'),
+	(2,'Enseignants'),
+	(3,'Personnel-de-soutien'),
+	(4, 'Administrateurs');
 	
 INSERT INTO tinderroulette.members(
             cip, id_member_status, last_name, first_name, email)
