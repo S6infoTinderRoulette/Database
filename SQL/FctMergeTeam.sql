@@ -29,13 +29,13 @@ BEGIN
 		ELSIF (nb_groups = 1) THEN
 			IF (tinderroulette.group_size_check(nb_membre::int + 1,_id_activity)) THEN
 				IF NOT EXISTS (SELECT * FROM temp_groups WHERE temp_groups.cip = _cip1) THEN				
-					IF NOT (SELECT * FROM check_duplicate_cip(_cip1,_id_activity)) THEN
+					IF NOT (SELECT * FROM tinderroulette.check_duplicate_cip(_cip1,_id_activity)) THEN
 						INSERT INTO tinderroulette.groupstudent (cip, id_group)
 						SELECT DISTINCT _cip1 , id_group FROM temp_groups;					
 						team_created := TRUE;
 					END IF;
 				ELSE
-					IF NOT (SELECT * FROM check_duplicate_cip(_cip2,_id_activity)) THEN
+					IF NOT (SELECT * FROM tinderroulette.check_duplicate_cip(_cip2,_id_activity)) THEN
 						INSERT INTO tinderroulette.groupstudent (cip, id_group)
 						SELECT DISTINCT _cip2 , id_group FROM temp_groups;								
 						team_created := TRUE;
