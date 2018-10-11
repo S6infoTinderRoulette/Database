@@ -1,3 +1,5 @@
+SET SCHEMA 'tinderroulette';
+
 CREATE FUNCTION check_duplicate_cip(userCip character(8),activityId int)
  RETURNS boolean
  AS

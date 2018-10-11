@@ -1,3 +1,5 @@
+SET SCHEMA 'tinderroulette';
+
 CREATE OR REPLACE FUNCTION TeacherCheck()
   RETURNS trigger AS
 $$

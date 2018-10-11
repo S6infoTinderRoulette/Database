@@ -1,4 +1,4 @@
-﻿SET SCHEMA 'tinderroulette'
+﻿SET SCHEMA 'tinderroulette';
 
 CREATE OR REPLACE FUNCTION clean_empty_group()
   RETURNS trigger AS

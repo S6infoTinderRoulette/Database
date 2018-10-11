@@ -1,3 +1,5 @@
+SET SCHEMA 'tinderroulette';
+
 CREATE FUNCTION get_single_member(activityId int)
  RETURNS TABLE(id_class text, cip character(8))
  AS
