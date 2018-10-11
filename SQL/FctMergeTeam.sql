@@ -44,8 +44,8 @@ BEGIN
 			END IF;
 		ELSE
 			IF (tinderroulette.group_size_check(2,_id_activity)) THEN
-				IF NOT ((SELECT * FROM check_duplicate_cip(_cip1,_id_activity))
-				AND (SELECT * FROM check_duplicate_cip(_cip2,_id_activity))) THEN 
+				IF NOT ((SELECT * FROM tinderroulette.check_duplicate_cip(_cip1,_id_activity))
+				AND (SELECT * FROM tinderroulette.check_duplicate_cip(_cip2,_id_activity))) THEN 
 					WITH newGroup AS (
 						INSERT INTO tinderroulette.groups (id_group_type, id_activity)
 						VALUES (1,_id_activity)

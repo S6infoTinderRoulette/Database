@@ -14,7 +14,10 @@ $body$
 		UNION 
 		SELECT existingGroup.groupid FROM existingGroup, teamPlusSizeLeft
 		WHERE existingGroup.teamsize = teamPlusSizeLeft.teamsize
-		AND teamPlusSizeLeft.nbteamplussize > 0)
+		AND teamPlusSizeLeft.nbteamplussize >
+		(SELECT COUNT(*) 
+		 FROM existingGroup, teamPlusSizeLeft 
+		 WHERE teamPlusSizeLeft.teamsize = existingGroup.teamsize))
 	SELECT groupstudent.id_group, groupstudent.cip 
 	FROM tinderroulette.groupstudent, groupWithSpotLeft
 	WHERE groupstudent.id_group = groupWithSpotLeft.groupid;
