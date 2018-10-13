@@ -1,6 +1,6 @@
 SET SCHEMA 'tinderroulette';
 
-CREATE OR REPLACE FUNCTION tinderroulette.get_team(_cip character(8), _id_activity integer)
+CREATE OR REPLACE FUNCTION get_team(_cip character(8), _id_activity integer)
   RETURNS TABLE(cip character(8), id_group integer) AS
 $BODY$
 	SELECT t2.cip, t2.id_group 

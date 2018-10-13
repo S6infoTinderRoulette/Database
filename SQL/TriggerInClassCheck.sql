@@ -1,6 +1,6 @@
 SET SCHEMA 'tinderroulette';
 
-CREATE OR REPLACE FUNCTION InClassCheck()
+CREATE OR REPLACE FUNCTION in_class_check()
   RETURNS trigger AS
 $$
 BEGIN    
@@ -19,6 +19,6 @@ END;
 $$
 LANGUAGE 'plpgsql';
 
-CREATE TRIGGER in_class_check
+CREATE TRIGGER in_class_check_trigger
 BEFORE INSERT OR UPDATE ON tinderroulette.groupstudent
-    FOR EACH ROW EXECUTE PROCEDURE InClassCheck();
+    FOR EACH ROW EXECUTE PROCEDURE in_class_check();
