@@ -1,9 +1,9 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     2018-10-03 13:21:13                          */
+/* Created on:     2018-10-16 17:11:46                          */
 /*==============================================================*/
 
-SET schema 'tinderroulette';
+SET SCHEMA 'tinderroulette';
 
 /*==============================================================*/
 /* Table: ACTIVITIES                                            */
@@ -13,6 +13,7 @@ create table ACTIVITIES (
    ID_CLASS             TEXT                 not null,
    CIP_IN_CHARGE        CHAR(8)              null,
    NB_PARTNERS          INT4                 not null,
+   FINAL                BOOL                 null,
    constraint PK_ACTIVITIES primary key (ID_ACTIVITY)
 );
 
@@ -135,9 +136,10 @@ FRIEND_CIP
 /* Table: GROUPS                                                */
 /*==============================================================*/
 create table GROUPS (
-   ID_GROUP             SERIAL             not null,
+   ID_GROUP             SERIAL               not null,
+   ID_CLASS             TEXT                 null,
    ID_GROUP_TYPE        INT4                 null,
-   ID_ACTIVITY          INT4                 not null,
+   ID_ACTIVITY          INT4                 null,
    constraint PK_GROUPS primary key (ID_GROUP)
 );
 
@@ -160,6 +162,13 @@ ID_GROUP_TYPE
 /*==============================================================*/
 create  index GROUPACTIVITY_FK on GROUPS (
 ID_ACTIVITY
+);
+
+/*==============================================================*/
+/* Index: GROUPCLASS_FK                                         */
+/*==============================================================*/
+create  index GROUPCLASS_FK on GROUPS (
+ID_CLASS
 );
 
 /*==============================================================*/
@@ -310,6 +319,48 @@ ID_MEMBER_STATUS
 );
 
 /*==============================================================*/
+/* Table: PARAMETERCACHE                                        */
+/*==============================================================*/
+create table PARAMETERCACHE (
+   CIP                  CHAR(8)              not null,
+   ID_CLASS             TEXT                 not null,
+   ID_GROUP_TYPE        INT4                 not null,
+   GROUPSIZE            TEXT                 null,
+   NBGROUP              INT4                 null,
+   constraint PK_PARAMETERCACHE primary key (CIP, ID_CLASS, ID_GROUP_TYPE)
+);
+
+/*==============================================================*/
+/* Index: PARAMETERCACHE_PK                                     */
+/*==============================================================*/
+create unique index PARAMETERCACHE_PK on PARAMETERCACHE (
+CIP,
+ID_CLASS,
+ID_GROUP_TYPE
+);
+
+/*==============================================================*/
+/* Index: PARAMETERCACHE_FK                                     */
+/*==============================================================*/
+create  index PARAMETERCACHE_FK on PARAMETERCACHE (
+CIP
+);
+
+/*==============================================================*/
+/* Index: PARAMETERCACHE_FK2                                    */
+/*==============================================================*/
+create  index PARAMETERCACHE_FK2 on PARAMETERCACHE (
+ID_CLASS
+);
+
+/*==============================================================*/
+/* Index: PARAMETERCACHE_FK3                                    */
+/*==============================================================*/
+create  index PARAMETERCACHE_FK3 on PARAMETERCACHE (
+ID_GROUP_TYPE
+);
+
+/*==============================================================*/
 /* Table: REQUEST                                               */
 /*==============================================================*/
 create table REQUEST (
@@ -411,6 +462,11 @@ alter table GROUPS
       on delete restrict on update restrict;
 
 alter table GROUPS
+   add constraint FK_GROUPS_GROUPCLAS_CLASSES foreign key (ID_CLASS)
+      references CLASSES (ID_CLASS)
+      on delete restrict on update restrict;
+
+alter table GROUPS
    add constraint FK_GROUPS_HASGROUPT_GROUPTYP foreign key (ID_GROUP_TYPE)
       references GROUPTYPE (ID_GROUP_TYPE)
       on delete restrict on update restrict;
@@ -445,6 +501,21 @@ alter table MEMBERS
       references MEMBERSTATUS (ID_MEMBER_STATUS)
       on delete restrict on update restrict;
 
+alter table PARAMETERCACHE
+   add constraint FK_PARAMETE_PARAMETER_CLASSES foreign key (ID_CLASS)
+      references CLASSES (ID_CLASS)
+      on delete restrict on update restrict;
+
+alter table PARAMETERCACHE
+   add constraint FK_PARAMETE_PARAMETER_GROUPTYP foreign key (ID_GROUP_TYPE)
+      references GROUPTYPE (ID_GROUP_TYPE)
+      on delete restrict on update restrict;
+
+alter table PARAMETERCACHE
+   add constraint FK_PARAMETE_PARAMETER_MEMBERS foreign key (CIP)
+      references MEMBERS (CIP)
+      on delete restrict on update restrict;
+
 alter table REQUEST
    add constraint FK_REQUEST_REQUEST_ACTIVITI foreign key (ID_ACTIVITY)
       references ACTIVITIES (ID_ACTIVITY)
@@ -464,3 +535,4 @@ alter table REQUEST
    add constraint FK_REQUEST_REQUEST2_MEMBERS foreign key (CIP_REQUESTED)
       references MEMBERS (CIP)
       on delete restrict on update restrict;
+
