@@ -6,9 +6,9 @@ CREATE FUNCTION get_open_group(activityId int)
 $body$
 	WITH groupWithSpotLeft AS (
 		WITH teamPlusSizeLeft AS (
-			SELECT nbteamplussize, teamsize FROM tinderroulette.get_number_group(1)),
+			SELECT nbteamplussize, teamsize FROM tinderroulette.get_number_group(activityId)),
 		existingGroup AS (
-			SELECT * FROM tinderroulette.get_current_group(1))
+			SELECT * FROM tinderroulette.get_current_group(activityId))
 		SELECT existingGroup.groupid FROM existingGroup, teamPlusSizeLeft 
 		WHERE existingGroup.teamsize < teamPlusSizeLeft.teamsize
 		UNION 

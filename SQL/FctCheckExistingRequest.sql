@@ -8,7 +8,7 @@ BEGIN
 	RETURN EXISTS (SELECT * FROM tinderroulette.request
 	WHERE (request.cip_seeking = cip1 OR request.cip_requested = cip1)
 	AND (request.cip_seeking = cip2 OR request.cip_requested = cip2)
-	AND request.id_activity = id_activity);
+	AND request.id_activity = activityId);
 END;
 $BODY$
 LANGUAGE plpgsql
