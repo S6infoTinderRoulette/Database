@@ -6,7 +6,7 @@ $$
 BEGIN    
    WITH toDelete AS (
 	WITH activity AS (
-		SELECT id_activity as id FROM tinderroulette.groups WHERE groups.id_group = 58
+		SELECT id_activity as id FROM tinderroulette.groups WHERE groups.id_group = NEW.id_group
 	)
 	SELECT DISTINCT request.id_activity, 
 		request.cip_seeking, 
@@ -18,8 +18,11 @@ BEGIN
 		tinderroulette.request 
 	WHERE request.id_activity = activity.id
 	AND (request.cip_seeking = fullgroup.cip OR request.cip_requested = fullgroup.cip))
-	DELETE FROM tinderroulette.request
-	WHERE EXISTS (SELECT * FROM toDelete);
+    DELETE FROM tinderroulette.request
+	WHERE request.id_activity IN (SELECT id_activity FROM toDelete)
+	AND request.cip_seeking IN (SELECT cip_seeking FROM toDelete)
+	AND request.cip_requested IN (SELECT cip_requested FROM toDelete)
+	AND request.id_request_type IN (SELECT id_request_type FROM toDelete);
     RETURN NULL;
 END;
 $$
