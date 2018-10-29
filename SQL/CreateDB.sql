@@ -140,6 +140,7 @@ create table GROUPS (
    ID_CLASS             TEXT                 null,
    ID_GROUP_TYPE        INT4                 null,
    ID_ACTIVITY          INT4                 null,
+   GROUP_INDEX          INT4                 null,
    constraint PK_GROUPS primary key (ID_GROUP)
 );
 
@@ -408,6 +409,13 @@ CIP_REQUESTED
 /*==============================================================*/
 create  index REQUEST_FK3 on REQUEST (
 ID_REQUEST_TYPE
+);
+
+/*==============================================================*/
+/* Index: REQUEST_FK4                                           */
+/*==============================================================*/
+create  index REQUEST_FK4 on REQUEST (
+ID_GROUP
 );
 
 /*==============================================================*/
