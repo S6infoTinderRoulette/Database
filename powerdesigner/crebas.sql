@@ -1,9 +1,114 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     10/29/2018 11:03:10 AM                       */
+/* Created on:     10/29/2018 12:38:18 PM                       */
 /*==============================================================*/
 
-SET SCHEMA 'tinderroulette';
+
+drop index HASCLASS_FK;
+
+drop index USERACTIVITY_FK;
+
+drop index ACTIVITIES_PK;
+
+drop table ACTIVITIES;
+
+drop index AP_PK;
+
+drop table AP;
+
+drop index APP_PK;
+
+drop table APP;
+
+drop index HASAPP_FK;
+
+drop index HASAP_FK;
+
+drop index CLASSES_PK;
+
+drop table CLASSES;
+
+drop index FRIENDLIST2_FK;
+
+drop index FRIENDLIST_FK;
+
+drop index FRIENDLIST_PK;
+
+drop table FRIENDLIST;
+
+drop index GROUPCLASS_FK;
+
+drop index GROUPACTIVITY_FK;
+
+drop index HASGROUPTYPE_FK;
+
+drop index GROUPS_PK;
+
+drop table GROUPS;
+
+drop index GROUPSTUDENT_FK2;
+
+drop index GROUPSTUDENT_FK;
+
+drop index GROUPSTUDENT_PK;
+
+drop table GROUPSTUDENT;
+
+drop index GROUPTYPE_PK;
+
+drop table GROUPTYPE;
+
+drop index HASLOG_FK;
+
+drop index LOGS_PK;
+
+drop table LOGS;
+
+drop index MEMBERCLASS_FK2;
+
+drop index MEMBERCLASS_FK;
+
+drop index MEMBERCLASS_PK;
+
+drop table MEMBERCLASS;
+
+drop index HASMEMBERSTATUS_FK;
+
+drop index MEMBERS_PK;
+
+drop table MEMBERS;
+
+drop index MEMBERSTATUS_PK;
+
+drop table MEMBERSTATUS;
+
+drop index PARAMETERCACHE_FK3;
+
+drop index PARAMETERCACHE_FK2;
+
+drop index PARAMETERCACHE_FK;
+
+drop index PARAMETERCACHE_PK;
+
+drop table PARAMETERCACHE;
+
+drop index REQUEST_FK4;
+
+drop index REQUEST_FK3;
+
+drop index REQUEST2_FK;
+
+drop index REQUEST_FK2;
+
+drop index REQUEST_FK;
+
+drop index REQUEST_PK;
+
+drop table REQUEST;
+
+drop index REQUESTTYPE_PK;
+
+drop table REQUESTTYPE;
 
 /*==============================================================*/
 /* Table: ACTIVITIES                                            */
@@ -369,9 +474,9 @@ create table REQUEST (
    CIP_SEEKING          CHAR(8)              not null,
    CIP_REQUESTED        CHAR(8)              not null,
    ID_REQUEST_TYPE      INT4                 not null,
-   ID_GROUP             INT4                 not null,
+   ID_GROUP             INT4                 null,
    REQUEST_TIMESTAMP    DATE                 not null,
-   constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED, ID_REQUEST_TYPE, ID_GROUP)
+   constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED, ID_REQUEST_TYPE)
 );
 
 /*==============================================================*/
@@ -381,8 +486,7 @@ create unique index REQUEST_PK on REQUEST (
 ID_ACTIVITY,
 CIP_SEEKING,
 CIP_REQUESTED,
-ID_REQUEST_TYPE,
-ID_GROUP
+ID_REQUEST_TYPE
 );
 
 /*==============================================================*/
