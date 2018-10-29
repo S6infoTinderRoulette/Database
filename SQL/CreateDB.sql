@@ -1,6 +1,6 @@
-﻿/*==============================================================*/
+/*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     2018-10-16 17:11:46                          */
+/* Created on:     10/29/2018 12:38:18 PM                       */
 /*==============================================================*/
 
 SET SCHEMA 'tinderroulette';
@@ -369,9 +369,9 @@ create table REQUEST (
    CIP_SEEKING          CHAR(8)              not null,
    CIP_REQUESTED        CHAR(8)              not null,
    ID_REQUEST_TYPE      INT4                 not null,
-   ID_GROUP		INT4		     null,
+   ID_GROUP             INT4                 null,
    REQUEST_TIMESTAMP    DATE                 not null,
-   constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED, ID_REQUEST_TYPE, ID_GROUP)
+   constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED, ID_REQUEST_TYPE)
 );
 
 /*==============================================================*/
@@ -381,8 +381,7 @@ create unique index REQUEST_PK on REQUEST (
 ID_ACTIVITY,
 CIP_SEEKING,
 CIP_REQUESTED,
-ID_REQUEST_TYPE,
-ID_GROUP
+ID_REQUEST_TYPE
 );
 
 /*==============================================================*/
