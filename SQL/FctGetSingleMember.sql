@@ -10,8 +10,7 @@ WHERE activities.id_activity = activityId
 AND activities.id_class = memberclass.id_class
 AND NOT EXISTS (
 	SELECT * 
-	FROM tinderroulette.groups,
-	tinderroulette.groupstudent
+	FROM tinderroulette.groups, tinderroulette.groupstudent
 	WHERE groups.id_activity = activityId
 	AND groups.id_group = groupstudent.id_group
 	AND groupstudent.cip = memberclass.cip)

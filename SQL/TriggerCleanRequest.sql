@@ -17,7 +17,8 @@ BEGIN
 		tinderroulette.get_full_group(activity.id) as fullgroup,
 		tinderroulette.request 
 	WHERE request.id_activity = activity.id
-	AND (request.cip_seeking = fullgroup.cip OR request.cip_requested = fullgroup.cip))
+	AND (request.cip_seeking = fullgroup.cip OR request.cip_requested = fullgroup.cip)
+	AND request.id_request_type = 1)
     DELETE FROM tinderroulette.request
 	WHERE request.id_activity IN (SELECT id_activity FROM toDelete)
 	AND request.cip_seeking IN (SELECT cip_seeking FROM toDelete)
