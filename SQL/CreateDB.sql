@@ -531,6 +531,11 @@ alter table REQUEST
       on delete restrict on update restrict;
 
 alter table REQUEST
+   add constraint FK_REQUEST_REQUEST_GROUPS foreign key (ID_GROUP)
+      references GROUPS (ID_GROUP)
+      on delete restrict on update restrict;
+
+alter table REQUEST
    add constraint FK_REQUEST_REQUEST_MEMBERS foreign key (CIP_SEEKING)
       references MEMBERS (CIP)
       on delete restrict on update restrict;
