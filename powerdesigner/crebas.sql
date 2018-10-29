@@ -1,9 +1,122 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     10/29/2018 12:38:18 PM                       */
+/* Created on:     10/29/2018 2:31:40 PM                        */
 /*==============================================================*/
 
-SET SCHEMA 'tinderroulette';
+
+drop index HASCLASS_FK;
+
+drop index USERACTIVITY_FK;
+
+drop index ACTIVITIES_PK;
+
+drop table ACTIVITIES;
+
+drop index AP_PK;
+
+drop table AP;
+
+drop index APP_PK;
+
+drop table APP;
+
+drop index HASAPP_FK;
+
+drop index HASAP_FK;
+
+drop index CLASSES_PK;
+
+drop table CLASSES;
+
+drop index FRIENDLIST2_FK;
+
+drop index FRIENDLIST_FK;
+
+drop index FRIENDLIST_PK;
+
+drop table FRIENDLIST;
+
+drop index GROUPCLASS_FK;
+
+drop index GROUPACTIVITY_FK;
+
+drop index HASGROUPTYPE_FK;
+
+drop index GROUPS_PK;
+
+drop table GROUPS;
+
+drop index GROUPSTUDENT_FK2;
+
+drop index GROUPSTUDENT_FK;
+
+drop index GROUPSTUDENT_PK;
+
+drop table GROUPSTUDENT;
+
+drop index GROUPTYPE_PK;
+
+drop table GROUPTYPE;
+
+drop index HASLOG_FK;
+
+drop index LOGS_PK;
+
+drop table LOGS;
+
+drop index MEMBERCLASS_FK2;
+
+drop index MEMBERCLASS_FK;
+
+drop index MEMBERCLASS_PK;
+
+drop table MEMBERCLASS;
+
+drop index HASMEMBERSTATUS_FK;
+
+drop index MEMBERS_PK;
+
+drop table MEMBERS;
+
+drop index MEMBERSTATUS_PK;
+
+drop table MEMBERSTATUS;
+
+drop index PARAMETERCACHE_FK3;
+
+drop index PARAMETERCACHE_FK2;
+
+drop index PARAMETERCACHE_FK;
+
+drop index PARAMETERCACHE_PK;
+
+drop table PARAMETERCACHE;
+
+drop index REQUEST_FK3;
+
+drop index REQUEST2_FK;
+
+drop index REQUEST_FK2;
+
+drop index REQUEST_FK;
+
+drop index REQUEST_PK;
+
+drop table REQUEST;
+
+drop index REQUESTTYPE_PK;
+
+drop table REQUESTTYPE;
+
+drop index REQUEST2_FK4;
+
+drop index REQUEST2_FK3;
+
+drop index REQUEST2_FK2;
+
+drop index REQUEST2_PK;
+
+drop table SWITCHGROUP;
 
 /*==============================================================*/
 /* Table: ACTIVITIES                                            */
@@ -369,7 +482,6 @@ create table REQUEST (
    CIP_SEEKING          CHAR(8)              not null,
    CIP_REQUESTED        CHAR(8)              not null,
    ID_REQUEST_TYPE      INT4                 not null,
-   ID_GROUP             INT4                 null,
    REQUEST_TIMESTAMP    DATE                 not null,
    constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED, ID_REQUEST_TYPE)
 );
@@ -413,13 +525,6 @@ ID_REQUEST_TYPE
 );
 
 /*==============================================================*/
-/* Index: REQUEST_FK4                                           */
-/*==============================================================*/
-create  index REQUEST_FK4 on REQUEST (
-ID_GROUP
-);
-
-/*==============================================================*/
 /* Table: REQUESTTYPE                                           */
 /*==============================================================*/
 create table REQUESTTYPE (
@@ -433,6 +538,47 @@ create table REQUESTTYPE (
 /*==============================================================*/
 create unique index REQUESTTYPE_PK on REQUESTTYPE (
 ID_REQUEST_TYPE
+);
+
+/*==============================================================*/
+/* Table: SWITCHGROUP                                           */
+/*==============================================================*/
+create table SWITCHGROUP (
+   ID_GROUP             INT4                 not null,
+   CIP                  CHAR(8)              not null,
+   ID_CLASS             TEXT                 not null,
+   SWITCHGROUP_TIMESTAMP DATE                 not null,
+   constraint PK_SWITCHGROUP primary key (ID_GROUP, CIP, ID_CLASS)
+);
+
+/*==============================================================*/
+/* Index: REQUEST2_PK                                           */
+/*==============================================================*/
+create unique index REQUEST2_PK on SWITCHGROUP (
+ID_GROUP,
+CIP,
+ID_CLASS
+);
+
+/*==============================================================*/
+/* Index: REQUEST2_FK2                                          */
+/*==============================================================*/
+create  index REQUEST2_FK2 on SWITCHGROUP (
+ID_CLASS
+);
+
+/*==============================================================*/
+/* Index: REQUEST2_FK3                                          */
+/*==============================================================*/
+create  index REQUEST2_FK3 on SWITCHGROUP (
+CIP
+);
+
+/*==============================================================*/
+/* Index: REQUEST2_FK4                                          */
+/*==============================================================*/
+create  index REQUEST2_FK4 on SWITCHGROUP (
+ID_GROUP
 );
 
 alter table ACTIVITIES
@@ -531,11 +677,6 @@ alter table REQUEST
       on delete restrict on update restrict;
 
 alter table REQUEST
-   add constraint FK_REQUEST_REQUEST_GROUPS foreign key (ID_GROUP)
-      references GROUPS (ID_GROUP)
-      on delete restrict on update restrict;
-
-alter table REQUEST
    add constraint FK_REQUEST_REQUEST_MEMBERS foreign key (CIP_SEEKING)
       references MEMBERS (CIP)
       on delete restrict on update restrict;
@@ -547,6 +688,21 @@ alter table REQUEST
 
 alter table REQUEST
    add constraint FK_REQUEST_REQUEST2_MEMBERS foreign key (CIP_REQUESTED)
+      references MEMBERS (CIP)
+      on delete restrict on update restrict;
+
+alter table SWITCHGROUP
+   add constraint FK_SWITCHGR_SWITCHGRO_CLASSES foreign key (ID_CLASS)
+      references CLASSES (ID_CLASS)
+      on delete restrict on update restrict;
+
+alter table SWITCHGROUP
+   add constraint FK_SWITCHGR_SWITCHGRO_GROUPS foreign key (ID_GROUP)
+      references GROUPS (ID_GROUP)
+      on delete restrict on update restrict;
+
+alter table SWITCHGROUP
+   add constraint FK_SWITCHGR_SWITCHGRO_MEMBERS foreign key (CIP)
       references MEMBERS (CIP)
       on delete restrict on update restrict;
 
