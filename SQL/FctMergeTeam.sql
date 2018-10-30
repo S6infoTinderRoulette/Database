@@ -25,7 +25,7 @@ BEGIN
 					UPDATE tinderroulette.groupstudent
 					   SET id_group = (SELECT id_group FROM temp_groups LIMIT 1)
 					WHERE (cip, id_group) IN (SELECT * FROM temp_groups);
-					PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity,1);
+					PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity);
 					team_created := TRUE;
 				END IF;
 			ELSIF (nb_groups = 1) THEN
@@ -34,14 +34,14 @@ BEGIN
 						IF NOT (SELECT * FROM tinderroulette.check_duplicate_cip(_cip1,_id_activity)) THEN
 							INSERT INTO tinderroulette.groupstudent (cip, id_group)
 							SELECT DISTINCT _cip1 , id_group FROM temp_groups;	
-							PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity,1);				
+							PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity);				
 							team_created := TRUE;
 						END IF;
 					ELSE
 						IF NOT (SELECT * FROM tinderroulette.check_duplicate_cip(_cip2,_id_activity)) THEN
 							INSERT INTO tinderroulette.groupstudent (cip, id_group)
 							SELECT DISTINCT _cip2 , id_group FROM temp_groups;
-							PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity,1);								
+							PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity);								
 							team_created := TRUE;
 						END IF;			
 					END IF;
@@ -58,7 +58,7 @@ BEGIN
 						SELECT _cip1, newGroup.id_group FROM newGroup
 						UNION
 						SELECT _cip2, newGroup.id_group FROM newGroup;
-						PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity,1);
+						PERFORM tinderroulette.remove_request(_cip1,_cip2,_id_activity);
 						team_created := TRUE;
 					END IF;
 				END IF;
