@@ -10,20 +10,18 @@ BEGIN
 	)
 	SELECT DISTINCT request.id_activity, 
 		request.cip_seeking, 
-		request.cip_requested, 
-		request.id_request_type
+		request.cip_requested
 	FROM 
 		activity,
-		tinderroulette.get_full_group(activity.id) as fullgroup,
+		tinderroulette.get_full_group(activity.id::int) as fullgroup,
 		tinderroulette.request 
 	WHERE request.id_activity = activity.id
-	AND (request.cip_seeking = fullgroup.cip OR request.cip_requested = fullgroup.cip)
-	AND request.id_request_type = 1)
+	AND (request.cip_seeking = fullgroup.cip 
+	OR request.cip_requested = fullgroup.cip))
     DELETE FROM tinderroulette.request
 	WHERE request.id_activity IN (SELECT id_activity FROM toDelete)
 	AND request.cip_seeking IN (SELECT cip_seeking FROM toDelete)
-	AND request.cip_requested IN (SELECT cip_requested FROM toDelete)
-	AND request.id_request_type IN (SELECT id_request_type FROM toDelete);
+	AND request.cip_requested IN (SELECT cip_requested FROM toDelete);
     RETURN NULL;
 END;
 $$

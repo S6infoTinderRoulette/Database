@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     10/29/2018 12:38:18 PM                       */
+/* Created on:     2018-10-30 09:00:43                          */
 /*==============================================================*/
 
 SET SCHEMA 'tinderroulette';
@@ -133,13 +133,45 @@ FRIEND_CIP
 );
 
 /*==============================================================*/
+/* Table: FRIENDREQUEST                                         */
+/*==============================================================*/
+create table FRIENDREQUEST (
+   CIP_SEEKING          CHAR(8)              not null,
+   CIP_REQUESTED        CHAR(8)              not null,
+   FRIENDREQUEST_TIMESTAMP DATE                 null,
+   constraint PK_FRIENDREQUEST primary key (CIP_SEEKING, CIP_REQUESTED)
+);
+
+/*==============================================================*/
+/* Index: FRIENDREQUEST_PK                                      */
+/*==============================================================*/
+create unique index FRIENDREQUEST_PK on FRIENDREQUEST (
+CIP_SEEKING,
+CIP_REQUESTED
+);
+
+/*==============================================================*/
+/* Index: FRIENDREQUEST_FK                                      */
+/*==============================================================*/
+create  index FRIENDREQUEST_FK on FRIENDREQUEST (
+CIP_SEEKING
+);
+
+/*==============================================================*/
+/* Index: FRIENDREQUEST2_FK                                     */
+/*==============================================================*/
+create  index FRIENDREQUEST2_FK on FRIENDREQUEST (
+CIP_REQUESTED
+);
+
+/*==============================================================*/
 /* Table: GROUPS                                                */
 /*==============================================================*/
 create table GROUPS (
    ID_GROUP             SERIAL               not null,
    ID_CLASS             TEXT                 null,
    ID_GROUP_TYPE        INT4                 null,
-   ID_ACTIVITY          INT4                 null,
+   ID_ACTIVITY          INT8                 null,
    GROUP_INDEX          INT4                 null,
    constraint PK_GROUPS primary key (ID_GROUP)
 );
@@ -320,58 +352,14 @@ ID_MEMBER_STATUS
 );
 
 /*==============================================================*/
-/* Table: PARAMETERCACHE                                        */
-/*==============================================================*/
-create table PARAMETERCACHE (
-   CIP                  CHAR(8)              not null,
-   ID_CLASS             TEXT                 not null,
-   ID_GROUP_TYPE        INT4                 not null,
-   GROUPSIZE            TEXT                 null,
-   NBGROUP              INT4                 null,
-   constraint PK_PARAMETERCACHE primary key (CIP, ID_CLASS, ID_GROUP_TYPE)
-);
-
-/*==============================================================*/
-/* Index: PARAMETERCACHE_PK                                     */
-/*==============================================================*/
-create unique index PARAMETERCACHE_PK on PARAMETERCACHE (
-CIP,
-ID_CLASS,
-ID_GROUP_TYPE
-);
-
-/*==============================================================*/
-/* Index: PARAMETERCACHE_FK                                     */
-/*==============================================================*/
-create  index PARAMETERCACHE_FK on PARAMETERCACHE (
-CIP
-);
-
-/*==============================================================*/
-/* Index: PARAMETERCACHE_FK2                                    */
-/*==============================================================*/
-create  index PARAMETERCACHE_FK2 on PARAMETERCACHE (
-ID_CLASS
-);
-
-/*==============================================================*/
-/* Index: PARAMETERCACHE_FK3                                    */
-/*==============================================================*/
-create  index PARAMETERCACHE_FK3 on PARAMETERCACHE (
-ID_GROUP_TYPE
-);
-
-/*==============================================================*/
 /* Table: REQUEST                                               */
 /*==============================================================*/
 create table REQUEST (
    ID_ACTIVITY          INT4                 not null,
    CIP_SEEKING          CHAR(8)              not null,
    CIP_REQUESTED        CHAR(8)              not null,
-   ID_REQUEST_TYPE      INT4                 not null,
-   ID_GROUP             INT4                 null,
-   REQUEST_TIMESTAMP    DATE                 not null,
-   constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED, ID_REQUEST_TYPE)
+   REQUEST_TIMESTAMP    DATE                 null,
+   constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED)
 );
 
 /*==============================================================*/
@@ -380,8 +368,7 @@ create table REQUEST (
 create unique index REQUEST_PK on REQUEST (
 ID_ACTIVITY,
 CIP_SEEKING,
-CIP_REQUESTED,
-ID_REQUEST_TYPE
+CIP_REQUESTED
 );
 
 /*==============================================================*/
@@ -406,33 +393,44 @@ CIP_REQUESTED
 );
 
 /*==============================================================*/
-/* Index: REQUEST_FK3                                           */
+/* Table: SWITCHGROUPREQUEST                                    */
 /*==============================================================*/
-create  index REQUEST_FK3 on REQUEST (
-ID_REQUEST_TYPE
+create table SWITCHGROUPREQUEST (
+   ID_GROUP             INT4                 not null,
+   CIP                  CHAR(8)              not null,
+   ID_CLASS             TEXT                 not null,
+   SWITCHGROUP_TIMESTAMP DATE                 null,
+   constraint PK_SWITCHGROUPREQUEST primary key (ID_GROUP, CIP, ID_CLASS)
 );
 
 /*==============================================================*/
-/* Index: REQUEST_FK4                                           */
+/* Index: SWITCHGROUPREQUEST_PK                                 */
 /*==============================================================*/
-create  index REQUEST_FK4 on REQUEST (
+create unique index SWITCHGROUPREQUEST_PK on SWITCHGROUPREQUEST (
+ID_GROUP,
+CIP,
+ID_CLASS
+);
+
+/*==============================================================*/
+/* Index: SWITCHGROUPREQUEST_FK                                 */
+/*==============================================================*/
+create  index SWITCHGROUPREQUEST_FK on SWITCHGROUPREQUEST (
 ID_GROUP
 );
 
 /*==============================================================*/
-/* Table: REQUESTTYPE                                           */
+/* Index: SWITCHGROUPREQUEST_FK2                                */
 /*==============================================================*/
-create table REQUESTTYPE (
-   ID_REQUEST_TYPE      SERIAL               not null,
-   REQUEST_TYPE         TEXT                 not null,
-   constraint PK_REQUESTTYPE primary key (ID_REQUEST_TYPE)
+create  index SWITCHGROUPREQUEST_FK2 on SWITCHGROUPREQUEST (
+CIP
 );
 
 /*==============================================================*/
-/* Index: REQUESTTYPE_PK                                        */
+/* Index: SWITCHGROUPREQUEST_FK3                                */
 /*==============================================================*/
-create unique index REQUESTTYPE_PK on REQUESTTYPE (
-ID_REQUEST_TYPE
+create  index SWITCHGROUPREQUEST_FK3 on SWITCHGROUPREQUEST (
+ID_CLASS
 );
 
 alter table ACTIVITIES
@@ -462,6 +460,16 @@ alter table FRIENDLIST
 
 alter table FRIENDLIST
    add constraint FK_FRIENDLI_FRIENDLIS_MEMBERS2 foreign key (FRIEND_CIP)
+      references MEMBERS (CIP)
+      on delete restrict on update restrict;
+
+alter table FRIENDREQUEST
+   add constraint FK_FRIENDRE_FRIENDREQ_MEMBERS foreign key (CIP_SEEKING)
+      references MEMBERS (CIP)
+      on delete restrict on update restrict;
+
+alter table FRIENDREQUEST
+   add constraint FK_FRIENDRE_FRIENDREQ_MEMBERS2 foreign key (CIP_REQUESTED)
       references MEMBERS (CIP)
       on delete restrict on update restrict;
 
@@ -510,29 +518,9 @@ alter table MEMBERS
       references MEMBERSTATUS (ID_MEMBER_STATUS)
       on delete restrict on update restrict;
 
-alter table PARAMETERCACHE
-   add constraint FK_PARAMETE_PARAMETER_CLASSES foreign key (ID_CLASS)
-      references CLASSES (ID_CLASS)
-      on delete restrict on update restrict;
-
-alter table PARAMETERCACHE
-   add constraint FK_PARAMETE_PARAMETER_GROUPTYP foreign key (ID_GROUP_TYPE)
-      references GROUPTYPE (ID_GROUP_TYPE)
-      on delete restrict on update restrict;
-
-alter table PARAMETERCACHE
-   add constraint FK_PARAMETE_PARAMETER_MEMBERS foreign key (CIP)
-      references MEMBERS (CIP)
-      on delete restrict on update restrict;
-
 alter table REQUEST
    add constraint FK_REQUEST_REQUEST_ACTIVITI foreign key (ID_ACTIVITY)
       references ACTIVITIES (ID_ACTIVITY)
-      on delete restrict on update restrict;
-
-alter table REQUEST
-   add constraint FK_REQUEST_REQUEST_GROUPS foreign key (ID_GROUP)
-      references GROUPS (ID_GROUP)
       on delete restrict on update restrict;
 
 alter table REQUEST
@@ -541,12 +529,22 @@ alter table REQUEST
       on delete restrict on update restrict;
 
 alter table REQUEST
-   add constraint FK_REQUEST_REQUEST_REQUESTT foreign key (ID_REQUEST_TYPE)
-      references REQUESTTYPE (ID_REQUEST_TYPE)
+   add constraint FK_REQUEST_REQUEST2_MEMBERS foreign key (CIP_REQUESTED)
+      references MEMBERS (CIP)
       on delete restrict on update restrict;
 
-alter table REQUEST
-   add constraint FK_REQUEST_REQUEST2_MEMBERS foreign key (CIP_REQUESTED)
+alter table SWITCHGROUPREQUEST
+   add constraint FK_SWITCHGR_SWITCHGRO_CLASSES foreign key (ID_CLASS)
+      references CLASSES (ID_CLASS)
+      on delete restrict on update restrict;
+
+alter table SWITCHGROUPREQUEST
+   add constraint FK_SWITCHGR_SWITCHGRO_GROUPS foreign key (ID_GROUP)
+      references GROUPS (ID_GROUP)
+      on delete restrict on update restrict;
+
+alter table SWITCHGROUPREQUEST
+   add constraint FK_SWITCHGR_SWITCHGRO_MEMBERS foreign key (CIP)
       references MEMBERS (CIP)
       on delete restrict on update restrict;
 

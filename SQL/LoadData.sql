@@ -1,4 +1,4 @@
-INSERT INTO tinderroulette.memberstatus(
+ï»¿INSERT INTO tinderroulette.memberstatus(
             id_member_status, status)
     VALUES (1,'Etudiants'),
 	(2,'Enseignants'),
@@ -8,16 +8,16 @@ INSERT INTO tinderroulette.memberstatus(
 INSERT INTO tinderroulette.members(
             cip, id_member_status, last_name, first_name, email)
     VALUES ('camj3302', '2', 'Camirand', 'Johany', 'johany.camirand@usherbrooke.ca'),
-	('cotd2511', '1', 'Côté-Martel', 'Danick', 'danick.cote-martel@usherbrooke.ca'),
+	('cotd2511', '1', 'CÃ´tÃ©-Martel', 'Danick', 'danick.cote-martel@usherbrooke.ca'),
 	('fanv2501', '1', 'Fan', 'Victor', 'victor.fan@usherbrooke.ca'),
 	('leba3207', '1', 'Le Bouler', 'Agathe', 'agathe.le.bouler@usherbrooke.ca'),
 	('chac2848', '1', 'Corentin', 'Chatelin', 'corentin.chatelin@usherbrooke.ca'),
-	('pelm2528', '1', 'Pelletier', 'Marc-Éric', 'marc-eric.pelletier@usherbrooke.ca');
+	('pelm2528', '1', 'Pelletier', 'Marc-Ã‰ric', 'marc-eric.pelletier@usherbrooke.ca');
 	
 INSERT INTO tinderroulette.grouptype(
             type)
-    VALUES ('Groupe Activité'),
-		('Procédural'),
+    VALUES ('Groupe ActivitÃ©'),
+		('ProcÃ©dural'),
 		('Tutorat');
 		
 INSERT INTO tinderroulette.ap(
@@ -36,10 +36,6 @@ INSERT INTO tinderroulette.activities(id_class,cip_in_charge
             , nb_partners)
     VALUES ('S6GEN60002A18', 'camj3302', 2);
 
-INSERT INTO tinderroulette.requesttype(request_type)
-VALUES ('Team'),
-('Friend');
-
 INSERT INTO tinderroulette.memberclass(
             cip, id_class)
     VALUES ('fanv2501', 'S6GEN60002A18'),
@@ -48,18 +44,3 @@ INSERT INTO tinderroulette.memberclass(
     ('leba3207', 'S6GEN60002A18'),
     ('pelm2528', 'S6GEN60002A18');
 
-WITH group_id AS (INSERT INTO tinderroulette.groups(id_group_type, id_activity)
-    VALUES (1, 1)
-    RETURNING id_group)
-INSERT INTO tinderroulette.groupstudent(
-            id_group, cip)
-    VALUES ((SELECT * FROM group_id), 'chac2848'), 
-    ((SELECT * FROM group_id), 'leba3207');
-
-WITH group_id AS (INSERT INTO tinderroulette.groups(id_group_type, id_activity)
-    VALUES (1, 1)
-    RETURNING id_group)
-INSERT INTO tinderroulette.groupstudent(
-            id_group, cip)
-    VALUES ((SELECT * FROM group_id), pelm2528), 
-    ((SELECT * FROM group_id), fanv2501);
