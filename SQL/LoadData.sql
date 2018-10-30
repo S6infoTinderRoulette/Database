@@ -58,6 +58,8 @@ VALUES (1, 'S6GEN60002A18', 3, 1),
        (2, 'S6GEN60002A18', 3, 2);
 	   
 INSERT INTO tinderroulette.groupstudent(cip, id_group)
-VALUES ('fanv2501', 1),
-       ('cotd2511', 2);
+VALUES ('chac2848', 1),
+       ('cotd2511', 1),
+       ('fanv2501', 2),
+	   ('leba3207', 2);
 	   
