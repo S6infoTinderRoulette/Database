@@ -138,7 +138,7 @@ FRIEND_CIP
 create table FRIENDREQUEST (
    CIP_SEEKING          CHAR(8)              not null,
    CIP_REQUESTED        CHAR(8)              not null,
-   FRIENDREQUEST_TIMESTAMP DATE                 null,
+   FRIENDREQUEST_TIMESTAMP timestamp with time zone                 null,
    constraint PK_FRIENDREQUEST primary key (CIP_SEEKING, CIP_REQUESTED)
 );
 
@@ -260,7 +260,7 @@ create table LOGS (
    ID_LOG               SERIAL               not null,
    CIP                  CHAR(8)              null,
    DESCRIPTION          TEXT                 not null,
-   LOG_TIMESTAMP        DATE                 not null,
+   LOG_TIMESTAMP        timestamp with time zone                 not null,
    constraint PK_LOGS primary key (ID_LOG)
 );
 
@@ -358,7 +358,7 @@ create table REQUEST (
    ID_ACTIVITY          INT4                 not null,
    CIP_SEEKING          CHAR(8)              not null,
    CIP_REQUESTED        CHAR(8)              not null,
-   REQUEST_TIMESTAMP    DATE                 null,
+   REQUEST_TIMESTAMP    timestamp with time zone                 null,
    constraint PK_REQUEST primary key (ID_ACTIVITY, CIP_SEEKING, CIP_REQUESTED)
 );
 
@@ -399,7 +399,7 @@ create table SWITCHGROUPREQUEST (
    ID_GROUP             INT4                 not null,
    CIP                  CHAR(8)              not null,
    ID_CLASS             TEXT                 not null,
-   SWITCHGROUP_TIMESTAMP DATE                 null,
+   SWITCHGROUP_TIMESTAMP timestamp with time zone                 null,
    constraint PK_SWITCHGROUPREQUEST primary key (ID_GROUP, CIP, ID_CLASS)
 );
 

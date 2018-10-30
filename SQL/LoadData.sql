@@ -28,10 +28,10 @@ VALUES ('camj3302', '2', 'Camirand', 'Johany', 'johany.camirand@usherbrooke.ca')
 	   ('chac2848', '1', 'Corentin', 'Chatelin', 'corentin.chatelin@usherbrooke.ca'),
 	   ('pelm2528', '1', 'Pelletier', 'Marc-Éric', 'marc-eric.pelletier@usherbrooke.ca');
 	
-INSERT INTO tinderroulette.grouptype(type)
-VALUES ('Groupe Activité'),
-	   ('Procédural'),
-	   ('Tutorat');
+INSERT INTO tinderroulette.grouptype(id_group_type, type, min_default, max_default)
+VALUES (1,'Groupe Activité', 5, 50),
+	   (2,'Procédural', 5, 50),
+	   (3,'Tutorat', 5, 50);
 		
 INSERT INTO tinderroulette.ap(id_ap)
 VALUES ('S6GEN60002A18');
