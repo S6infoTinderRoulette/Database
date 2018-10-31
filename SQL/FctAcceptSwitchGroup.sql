@@ -1,4 +1,4 @@
--- DROP FUNCTION tinderroulette.SWITCHGROUP(character, text);
+﻿-- DROP FUNCTION tinderroulette.SWITCHGROUP(character, text);
 
 CREATE OR REPLACE FUNCTION tinderroulette.ACCEPT_SWITCHGROUP(
 	cip_requested character,
@@ -24,6 +24,9 @@ BEGIN
 		-- DELETE REQUEST IN SWITCHGROUPREQUEST
 		DELETE FROM tinderroulette.switchgrouprequest
 		WHERE cip = cip_requested
+		AND id_class = id_class;
+		DELETE FROM tinderroulette.switchgrouprequest
+		WHERE cip = user_cip
 		AND id_class = id_class;
 	END IF;
 END
