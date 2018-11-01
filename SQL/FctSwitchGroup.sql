@@ -1,4 +1,4 @@
-DROP FUNCTION tinderroulette.SWITCHGROUP(character, character, integer, integer);
+﻿-- DROP FUNCTION tinderroulette.SWITCHGROUP(character, character, integer, integer);
 
 CREATE OR REPLACE FUNCTION tinderroulette.SWITCHGROUP(
 	cip1 character,
