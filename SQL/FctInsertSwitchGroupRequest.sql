@@ -14,3 +14,4 @@ LANGUAGE sql;
 
 -- Test
 -- SELECT tinderroulette.insert_switchgrouprequest('cotd2511', 'S6GEN60002A18', 2);
+-- SELECT tinderroulette.insert_switchgrouprequest('fanv2501', 'S6GEN60002A18', 1);
