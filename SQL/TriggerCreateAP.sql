@@ -1,4 +1,6 @@
-CREATE OR REPLACE FUNCTION CreateAP()
+SET SCHEMA 'tinderroulette';
+
+CREATE OR REPLACE FUNCTION create_ap()
   RETURNS trigger AS
 $$
 BEGIN    
@@ -9,6 +11,6 @@ END;
 $$
 LANGUAGE 'plpgsql';
 
-CREATE TRIGGER createAP
+CREATE TRIGGER create_ap_trigger
 AFTER INSERT ON tinderroulette.AP
-    FOR EACH ROW EXECUTE PROCEDURE CreateAP();
+    FOR EACH ROW EXECUTE PROCEDURE create_ap();

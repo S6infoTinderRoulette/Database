@@ -1,4 +1,6 @@
-CREATE OR REPLACE FUNCTION TeacherCheck()
+SET SCHEMA 'tinderroulette';
+
+CREATE OR REPLACE FUNCTION teacher_check()
   RETURNS trigger AS
 $$
 BEGIN    
@@ -12,4 +14,4 @@ LANGUAGE 'plpgsql';
 
 CREATE TRIGGER teacher_check_trigger
 BEFORE INSERT OR UPDATE ON tinderroulette.activities
-    FOR EACH ROW EXECUTE PROCEDURE TeacherCheck();
+    FOR EACH ROW EXECUTE PROCEDURE teacher_check();

@@ -1,4 +1,6 @@
-CREATE OR REPLACE FUNCTION CreateAPP()
+SET SCHEMA 'tinderroulette';
+
+CREATE OR REPLACE FUNCTION create_app()
   RETURNS trigger AS
 $$
 BEGIN    
@@ -9,6 +11,6 @@ END;
 $$
 LANGUAGE 'plpgsql';
 
-CREATE TRIGGER createAPP
+CREATE TRIGGER create_app_trigger
 AFTER INSERT ON tinderroulette.APP
-    FOR EACH ROW EXECUTE PROCEDURE CreateAPP();
+    FOR EACH ROW EXECUTE PROCEDURE create_app();

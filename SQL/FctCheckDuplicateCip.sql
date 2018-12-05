@@ -1,9 +1,11 @@
+SET SCHEMA 'tinderroulette';
+
 CREATE FUNCTION check_duplicate_cip(userCip character(8),activityId int)
  RETURNS boolean
  AS
 $body$	
 BEGIN
-	RETURN NOT EXISTS (SELECT * 
+	RETURN EXISTS (SELECT * 
 	FROM tinderroulette.groupstudent, tinderroulette.groups
 	WHERE groupstudent.cip = userCip 
 	AND groupstudent.id_group = groups.id_group
