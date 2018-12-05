@@ -18,6 +18,7 @@ $$
 	AND switchgrouprequest.id_group = groups1.id_group
 	AND switchgrouprequest.cip = groupstudent2.cip
 	AND groupstudent2.id_group = groups2.id_group
+	AND groups2.group_index <> groups1.group_index
 $$
 LANGUAGE sql;
 
